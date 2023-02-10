@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Telerik.WebReportDesigner.Services.Trial" Version="17.0.23.118" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Data\" />
+    <Folder Include="Resources\Images\" />
+    <Folder Include="Resources\Styles\" />
+  </ItemGroup>
+
+</Project>
