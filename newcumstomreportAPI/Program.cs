@@ -2,7 +2,20 @@ using Telerik.Reporting.Cache.File;
 using Telerik.Reporting.Services;
 using Telerik.WebReportDesigner.Services;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(name: MyAllowSpecificOrigins,
+//                      policy =>
+//                      {
+//                          policy.WithOrigins("https://localhost:7166/api/reportdesigner/typeSchemaCollection",
+//                                              "https://localhost:7166/api/reportdesigner/typeSchemaCollection")
+//                                                .AllowAnyHeader()
+//                                                .AllowAnyMethod();
+//                      });
+//});
 
 // Add services to the container.
 
@@ -25,8 +38,10 @@ builder.Services.AddSingleton<IReportDesignerServiceConfiguration>(sp => new Rep
     ResourceStorage = new ResourceStorage(Path.Combine(Environment.CurrentDirectory, "Resources"))
 });
 
+builder.Services.AddCors();
+
 var app = builder.Build();
-app.UseCors();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -35,7 +50,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+//app.UseCors(MyAllowSpecificOrigins);
+app.UseCors(builder =>
+                builder.WithOrigins("*")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+            );
+
+app.UseRouting();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.UseAuthorization();
 
