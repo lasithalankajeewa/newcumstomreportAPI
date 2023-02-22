@@ -5,28 +5,19 @@ using Telerik.WebReportDesigner.Services;
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy(name: MyAllowSpecificOrigins,
-//                      policy =>
-//                      {
-//                          policy.WithOrigins("https://localhost:7166/api/reportdesigner/typeSchemaCollection",
-//                                              "https://localhost:7166/api/reportdesigner/typeSchemaCollection")
-//                                                .AllowAnyHeader()
-//                                                .AllowAnyMethod();
-//                      });
-//});
+
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IReportServiceConfiguration>(sp => new ReportServiceConfiguration
 {
     ReportingEngineConfiguration = sp.GetService<IConfiguration>(),
-    HostAppId = "testingTeleric",
+    HostAppId = "newcumstomreportAPI",
     Storage = new FileStorage(),
     ReportSourceResolver = new UriReportSourceResolver(
         Path.Combine(Environment.CurrentDirectory, "Reports"))
@@ -55,11 +46,11 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 //app.UseCors(MyAllowSpecificOrigins);
-app.UseCors(builder =>
-                builder.WithOrigins("*")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-            );
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+});
+
 
 app.UseRouting();
 

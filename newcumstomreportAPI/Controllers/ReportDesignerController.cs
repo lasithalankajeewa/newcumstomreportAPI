@@ -6,7 +6,7 @@ using Telerik.WebReportDesigner.Services.Controllers;
 
 namespace newcumstomreportAPI.Controllers
 {
-    //[EnableCors('MyAllowSpecificOrigins')]
+    //[EnableCors("*")]
     [Microsoft.AspNetCore.Components.Route("api/reportdesigner")]
     [ApiController]
     public class ReportDesignerController : ReportDesignerControllerBase
